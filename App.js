@@ -50,9 +50,11 @@ export default function App() {
   //   and reload the list by calling loadTodos().
   const handleAdd = async () => {
     // TODO 4a: YOUR CODE HERE
+      if (text.trim() === "") return;
 
     try {
       // TODO 4b: YOUR CODE HERE
+    await addTodo(text.trim());
 
       // TODO 7: YOUR CODE HERE
     } catch (error) {
