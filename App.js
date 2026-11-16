@@ -29,16 +29,24 @@ export default function App() {
   //      then save it with setTodos(...)
   //   b) Below loadTodos: use useEffect so loadTodos() runs ONCE
   //      when the screen opens. The dependency array must be empty: []
+ 
   const loadTodos = async () => {
-    try {
-      setLoading(true);
-      // TODO 3a: YOUR CODE HERE
-    } catch (error) {
-      Alert.alert("Error", "Could not load todos: " + error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    setLoading(true);
+    // TODO 3a
+    const data = await fetchTodos();
+    setTodos(data);
+  } catch (error) {
+    Alert.alert("Error", "Could not load todos: " + error.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+// TODO 3b
+useEffect(() => {
+  loadTodos();
+}, []);
 
   // TODO 3b: YOUR useEffect HERE
 
@@ -80,11 +88,13 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      {/* TODO 5: Replace the placeholder below with a FlatList that shows the todos.
-          - data={todos}
-          - keyExtractor={(item) => item.id}
-          - renderItem renders <TodoItem title={item.title} completed={item.completed} />
-      */}
+      {<FlatList
+  data={todos}
+  keyExtractor={(item) => item.id}
+  renderItem={({ item }) => (
+    <TodoItem title={item.title} completed={item.completed} />
+  )}
+/>}
 
       {/* TODO 6: Handle loading and empty states.
           - If loading is true, show <ActivityIndicator size="large" /> instead of the list.
